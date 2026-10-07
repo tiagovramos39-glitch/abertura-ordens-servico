@@ -27,10 +27,13 @@ public class EquipamentoController {
     @PostMapping
     public ResponseEntity<Equipamento> cadastrar(
             @RequestBody Equipamento equipamento) {
-        Equipamento equipamentoCadastrado = equipamentoService.cadastrar(equipamento);
+        Optional<Equipamento> equipamentoCadastrado = equipamentoService.cadastrar(equipamento);
 
+        if (equipamentoCadastrado.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(equipamentoCadastrado);
+                .body(equipamentoCadastrado.get());
     }
 
     @GetMapping
