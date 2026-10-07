@@ -2,9 +2,7 @@ package br.com.ordensservico.aberturaordensservico.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-
 import br.com.ordensservico.aberturaordensservico.model.Setor;
 import br.com.ordensservico.aberturaordensservico.repository.SetorRepository;
 
@@ -46,5 +44,4 @@ public class SetorService {
         setorRepository.deleteById(id);
         return true;
     }
-    
 }
