@@ -14,7 +14,7 @@ public class Setor {
     @GeneratedValue
     private int id;
     
-    @NotBlank 
+    @NotBlank (message = "O nome do setor é obrigatório")
     private String nome;
 
     public Setor() {
