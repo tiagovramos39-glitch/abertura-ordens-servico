@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import br.com.ordensservico.aberturaordensservico.dto.EquipamentoRequest;
 import br.com.ordensservico.aberturaordensservico.model.Equipamento;
 import br.com.ordensservico.aberturaordensservico.service.EquipamentoService;
 import jakarta.validation.Valid;
@@ -27,7 +29,7 @@ public class EquipamentoController {
 
     @PostMapping
     public ResponseEntity<Equipamento> cadastrar(
-            @Valid @RequestBody Equipamento equipamento) {
+            @Valid @RequestBody EquipamentoRequest equipamento) {
         Optional<Equipamento> equipamentoCadastrado = equipamentoService.cadastrar(equipamento);
 
         if (equipamentoCadastrado.isEmpty()) {
@@ -55,8 +57,8 @@ public class EquipamentoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Equipamento> atualizar(
-            @Valid @PathVariable Integer id,
-            @RequestBody Equipamento novosDados) {
+            @PathVariable Integer id,
+            @Valid @RequestBody EquipamentoRequest novosDados) {
         Optional<Equipamento> equipamentoAtualizado = equipamentoService.atualizar(id, novosDados);
         if (equipamentoAtualizado.isPresent()) {
             return ResponseEntity.ok(equipamentoAtualizado.get());

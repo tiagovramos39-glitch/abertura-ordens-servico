@@ -3,6 +3,8 @@ package br.com.ordensservico.aberturaordensservico.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+
+import br.com.ordensservico.aberturaordensservico.dto.EquipamentoRequest;
 import br.com.ordensservico.aberturaordensservico.model.Equipamento;
 import br.com.ordensservico.aberturaordensservico.repository.EquipamentoRepository;
 import br.com.ordensservico.aberturaordensservico.model.Setor;
@@ -18,16 +20,16 @@ public class EquipamentoService {
         this.setorRepository = setorRepository;
     }
 
-    public Optional<Equipamento> cadastrar(Equipamento equipamento) {
-        Optional<Setor> setorEncontrado = setorRepository.findById(equipamento.getSetor().getId());	
+    public Optional<Equipamento> cadastrar(EquipamentoRequest equipamentoRequest) {
+        Optional<Setor> setorEncontrado = setorRepository.findById(equipamentoRequest.getSetorId());	
 
         if (setorEncontrado.isEmpty()) {
             return Optional.empty();
         }
         Equipamento equipamentoCadastrado = new Equipamento();
-        equipamentoCadastrado.setNome(equipamento.getNome());
-        equipamentoCadastrado.setNumeroPatrimonio(equipamento.getNumeroPatrimonio());
-        equipamentoCadastrado.setSetor(equipamento.getSetor());
+        equipamentoCadastrado.setNome(equipamentoRequest.getNome());
+        equipamentoCadastrado.setNumeroPatrimonio(equipamentoRequest.getNumeroPatrimonio());
+        equipamentoCadastrado.setSetor(setorEncontrado.get());
         return Optional.of(equipamentoRepository.save(equipamentoCadastrado));
     }
 
@@ -39,7 +41,7 @@ public class EquipamentoService {
         return equipamentoRepository.findById(id);
     }
 
-    public Optional<Equipamento> atualizar(Integer id, Equipamento novosDados) {
+    public Optional<Equipamento> atualizar(Integer id, EquipamentoRequest novosDados) {
         Optional<Equipamento> equipamentoEncontrado = equipamentoRepository.findById(id);
         if (equipamentoEncontrado.isEmpty()) {
             return Optional.empty();
