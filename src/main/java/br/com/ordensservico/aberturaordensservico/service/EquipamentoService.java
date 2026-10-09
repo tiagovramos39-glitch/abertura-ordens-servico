@@ -3,7 +3,6 @@ package br.com.ordensservico.aberturaordensservico.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-
 import br.com.ordensservico.aberturaordensservico.dto.EquipamentoRequest;
 import br.com.ordensservico.aberturaordensservico.model.Equipamento;
 import br.com.ordensservico.aberturaordensservico.repository.EquipamentoRepository;
