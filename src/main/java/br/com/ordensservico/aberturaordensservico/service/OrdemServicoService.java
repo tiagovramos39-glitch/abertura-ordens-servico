@@ -3,7 +3,12 @@ package br.com.ordensservico.aberturaordensservico.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import br.com.ordensservico.aberturaordensservico.dto.EncerramentoOrdemServico;
 import br.com.ordensservico.aberturaordensservico.dto.OrdemServicoRequest;
 import br.com.ordensservico.aberturaordensservico.model.Equipamento;
 import br.com.ordensservico.aberturaordensservico.model.OrdemServico;
@@ -59,5 +64,26 @@ public class OrdemServicoService {
         }
         ordemServicoRepository.deleteById(id);
         return true;
+    }
+
+    public Optional<OrdemServico> encerrar(Integer id, EncerramentoOrdemServico dados) {
+        Optional<OrdemServico> ordemServicoEncontrada = ordemServicoRepository.findById(id);
+        if (ordemServicoEncontrada.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "OS não encontrada");
+        }
+
+        OrdemServico os = ordemServicoEncontrada.get();
+
+        if (os.getDataEncerramento() != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "OS já encerrada");
+        } else {
+            os.setDataEncerramento(LocalDateTime.now());
+            os.setSolucao(dados.getSolucao());
+            return Optional.of(ordemServicoRepository.save(os));
+        }
+    }
+
+    public List<OrdemServico> listarOrdensServicoEncerradas() {
+        return ordemServicoRepository.findByDataEncerramentoIsNull();
     }
 }

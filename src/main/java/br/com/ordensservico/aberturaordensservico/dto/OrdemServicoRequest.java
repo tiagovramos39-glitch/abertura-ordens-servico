@@ -25,4 +25,6 @@ public class OrdemServicoRequest {
     public Integer getEquipamentoId() {
         return equipamentoId;
     }
+
+    
 }
